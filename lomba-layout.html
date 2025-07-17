@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Design Competition</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f8f8;
+            /* Light background for the page */
+        }
+
+        /* Custom styles for the vertical timeline */
+        .vertical-timeline {
+            position: relative;
+            max-width: 800px;
+            /* Slightly narrower for cleaner look */
+            margin: 0 auto;
+            padding: 20px 0;
+        }
+
+        .vertical-timeline::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            /* Line positioned on the left */
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background-color: #cbd5e0;
+            /* Light gray timeline line */
+            z-index: 0;
+        }
+
+        .timeline-event {
+            position: relative;
+            margin-bottom: 2.5rem;
+            /* Space between events */
+            display: flex;
+            align-items: flex-start;
+            /* Align content to the top */
+        }
+
+        .timeline-node-icon {
+            width: 24px;
+            height: 24px;
+            background-color: #3b82f6;
+            /* Blue dot/icon background */
+            border-radius: 50%;
+            /* Make it a circle */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            position: absolute;
+            left: 20px;
+            /* Align with the line */
+            top: 0;
+            /* Align with the top of the event content */
+            transform: translateX(-50%);
+            /* Center the icon on the line */
+            z-index: 1;
+            box-shadow: 0 0 0 3px #ffffff;
+            /* White outer ring */
+        }
+
+        /* Star icon for timeline nodes */
+        .timeline-node-icon svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .timeline-content {
+            background-color: #ffffff;
+            /* White background for content cards */
+            color: #2d3748;
+            /* Dark text color */
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            /* rounded-lg */
+            margin-left: 3.5rem;
+            /* Space from the line and icon */
+            width: calc(100% - 3.5rem);
+            /* Adjust width */
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            /* Subtle shadow */
+            border: 1px solid #e2e8f0;
+            /* Light border */
+        }
+
+        .timeline-title {
+            font-size: 1.25rem;
+            /* text-xl */
+            font-weight: 600;
+            /* font-semibold */
+            margin-bottom: 0.25rem;
+        }
+
+        .timeline-date-text {
+            font-size: 0.95rem;
+            /* text-base */
+            color: #4a5568;
+            /* gray-700 */
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .vertical-timeline {
+                padding: 10px 0;
+            }
+
+            .vertical-timeline::before {
+                left: 15px;
+                /* Adjust line for smaller screens */
+            }
+
+            .timeline-node-icon {
+                left: 15px;
+            }
+
+            .timeline-content {
+                margin-left: 2.5rem;
+                /* Adjust margin for smaller screens */
+                width: calc(100% - 2.5rem);
+                padding: 1rem;
+            }
+
+            .timeline-title {
+                font-size: 1.125rem;
+                /* text-lg */
+            }
+
+            .timeline-date-text {
+                font-size: 0.875rem;
+                /* text-sm */
+            }
+        }
+    </style>
+</head>
+
+<body class="antialiased">
+    <!-- Navbar -->
+    <nav class="bg-white shadow-sm py-4 px-6 md:px-12 flex justify-between items-center rounded-b-lg">
+        <!-- Logo -->
+        <div class="flex items-center">
+            <img src="https://placehold.co/40x40/e2e8f0/64748b?text=LOGO" alt="Sitefest Logo"
+                class="h-10 w-10 mr-2 rounded-full">
+            <span class="text-xl font-bold text-gray-800">SITEFEST 4.0</span>
+        </div>
+        <!-- Menu Items -->
+        <ul class="hidden md:flex space-x-8">
+            <li><a href="#" class="text-gray-600 hover:text-blue-600 font-medium transition duration-300">Beranda</a>
+            </li>
+            <li><a href="#" class="text-gray-600 hover:text-blue-600 font-medium transition duration-300">Seminar</a>
+            </li>
+            <li><a href="#" class="text-gray-600 hover:text-blue-600 font-medium transition duration-300">Workshop</a>
+            </li>
+            <!-- Kompetisi Dropdown -->
+            <li class="relative group">
+                <button
+                    class="text-gray-600 hover:text-blue-600 font-medium transition duration-300 flex items-center focus:outline-none">
+                    Kompetisi
+                    <svg class="ml-1 w-4 h-4 transform group-hover:rotate-180 transition-transform duration-300"
+                        fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+                <div
+                    class="absolute left-1/2 -translate-x-1/2 mt-3 w-[600px] bg-white shadow-lg rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 p-6 grid grid-cols-2 gap-4">
+                    <!-- Dropdown Items -->
+                    <a href="#" class="block p-3 rounded-md hover:bg-gray-100 transition duration-200">
+                        <h5 class="font-semibold text-gray-900">Web Design Competition</h5>
+                        <p class="text-sm text-gray-600">Web Design Competition merupakan kompetisi yang ditujukan untuk
+                            siswa/i...</p>
+                    </a>
+                    <a href="#" class="block p-3 rounded-md hover:bg-gray-100 transition duration-200">
+                        <h5 class="font-semibold text-gray-900">UI/UX Design Competition</h5>
+                        <p class="text-sm text-gray-600">UI/UX Design Competition adalah kompetisi nasional dalam
+                            SITEFEST 202...</p>
+                    </a>
+                    <a href="#" class="block p-3 rounded-md hover:bg-gray-100 transition duration-200">
+                        <h5 class="font-semibold text-gray-900">Ide Bisnis</h5>
+                        <p class="text-sm text-gray-600">Lomba Ide Bisnis SITEFEST 2025 oleh Primakara University
+                            memberikan...</p>
+                    </a>
+                    <a href="#" class="block p-3 rounded-md hover:bg-gray-100 transition duration-200">
+                        <h5 class="font-semibold text-gray-900">UI Design Competition</h5>
+                        <p class="text-sm text-gray-600">UI Design Competition adalah kompetisi tingkat nasional dalam
+                            SITEFEST 2025...</p>
+                    </a>
+                    <a href="#" class="block p-3 rounded-md hover:bg-gray-100 transition duration-200">
+                        <h5 class="font-semibold text-gray-900">Lomba Cerdas Cermat IT</h5>
+                        <p class="text-sm text-gray-600">Cerdas Cermat (LCC) TI SITEFEST 2025 adalah kompetisi tingkat
+                            SMA/SMK...</p>
+                    </a>
+                    <a href="#" class="block p-3 rounded-md hover:bg-gray-100 transition duration-200">
+                        <h5 class="font-semibold text-gray-900">Lomba Cerdas Cermat Akuntansi</h5>
+                        <p class="text-sm text-gray-600">Cerdas Cermat Akuntansi merupakan kompetisi akuntansi tingkat
+                            SMA/SMK...</p>
+                    </a>
+                    <a href="#" class="block p-3 rounded-md hover:bg-gray-100 transition duration-200">
+                        <h5 class="font-semibold text-gray-900">Lomba Poster</h5>
+                        <p class="text-sm text-gray-600">Lomba Poster tingkat SMA/SMK se-Indonesia merupakan bagian
+                            dari...</p>
+                    </a>
+                </div>
+            </li>
+        </ul>
+        <!-- Contact Button -->
+        <button
+            class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition duration-300 hidden md:block shadow-md">
+            Kontak
+        </button>
+        <!-- Mobile Menu Button (Hamburger Icon) -->
+        <button class="md:hidden text-gray-600 focus:outline-none">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16">
+                </path>
+            </svg>
+        </button>
+    </nav>
+
+    <!-- Main Content Area -->
+    <div class="container mx-auto px-6 md:px-12 py-10">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Left Section: Competition Details -->
+            <div class="lg:col-span-2">
+                <p class="text-blue-600 font-semibold mb-2">National / Online</p>
+                <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight mb-4">
+                    Web Design Competition
+                </h1>
+                <p class="text-lg text-gray-700 mb-8 max-w-2xl">
+                    Web Design Competition merupakan kompetisi yang ditujukan untuk siswa/i SMA/SMK Nasional yang
+                    berminat dalam pemrograman dan desain website. Mengusung tema DONATIONS TO THE COUNTRY, kompetisi
+                    ini mendorong peserta merancang solusi digital inovatif untuk penggalangan dana...
+                </p>
+                <a href="#" class="text-blue-600 hover:underline font-medium mb-8 block">Lihat selengkapnya</a>
+
+                <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                    <button
+                        class="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition duration-300 shadow-lg">
+                        Daftar Sekarang
+                    </button>
+                    <button
+                        class="bg-white border border-gray-300 text-gray-800 px-8 py-3 rounded-lg hover:bg-blue-600 hover:text-white transition duration-300 shadow-md">
+                        Guide Book
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right Section: Competition Status Sidebar -->
+            <div class="lg:col-span-1 bg-white p-8 rounded-xl shadow-lg border border-gray-200">
+                <p class="text-gray-600 text-sm mb-2">Individual / Team</p>
+                <h2 id="competition-status" class="text-3xl font-extrabold text-red-600 mb-6"></h2>
+
+                <!-- Countdown Timer -->
+                <div class="grid grid-cols-4 gap-2 text-center mb-8">
+                    <div class="p-3 bg-gray-100 rounded-md">
+                        <span class="block text-2xl font-bold text-gray-800" id="countdown-days">0</span>
+                        <span class="block text-sm text-gray-600">Hari</span>
+                    </div>
+                    <div class="p-3 bg-gray-100 rounded-md">
+                        <span class="block text-2xl font-bold text-gray-800" id="countdown-hours">0</span>
+                        <span class="block text-sm text-gray-600">Jam</span>
+                    </div>
+                    <div class="p-3 bg-gray-100 rounded-md">
+                        <span class="block text-2xl font-bold text-gray-800" id="countdown-minutes">0</span>
+                        <span class="block text-sm text-gray-600">Menit</span>
+                    </div>
+                    <div class="p-3 bg-gray-100 rounded-md">
+                        <span class="block text-2xl font-bold text-gray-800" id="countdown-seconds">0</span>
+                        <span class="block text-sm text-gray-600">Detik</span>
+                    </div>
+                </div>
+
+                <hr class="border-gray-200 mb-6">
+
+                <h3 class="text-xl font-semibold text-gray-800 mb-4">Syarat dan Ketentuan:</h3>
+                <ul class="list-none space-y-3">
+                    <li class="flex items-start text-gray-700">
+                        <svg class="w-5 h-5 text-green-500 mr-2 mt-1 flex-shrink-0" fill="currentColor"
+                            viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                        Siswa SMA/SMK sederajat aktif dari seluruh Indonesia
+                    </li>
+                    <li class="flex items-start text-gray-700">
+                        <svg class="w-5 h-5 text-green-500 mr-2 mt-1 flex-shrink-0" fill="currentColor"
+                            viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                        Memiliki kartu pelajar atau surat keterangan aktif bersekolah
+                    </li>
+                </ul>
+
+                <button
+                    class="w-full bg-gray-200 text-gray-800 font-semibold py-3 mt-8 rounded-lg hover:bg-gray-300 transition duration-300 shadow-sm">
+                    Guide Book
+                </button>
+            </div>
+        </div>
+
+        <!-- Activity Series Section -->
+        <div class="mt-16 bg-white text-gray-900 py-16 px-6 md:px-12 rounded-xl shadow-lg">
+            <h2 class="text-3xl md:text-4xl font-extrabold mb-8 text-center">
+                Rangkaian Kegiatan
+            </h2>
+            <h3 class="text-2xl font-bold mb-12 text-center">Timeline Event</h3>
+
+            <div class="vertical-timeline">
+                <!-- Event 1: Pendaftaran Gelombang I -->
+                <div class="timeline-event">
+                    <div class="timeline-node-icon">
+                        <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.538 1.118l-2.8-2.034a1 1 0 00-1.176 0l-2.8 2.034c-.783.57-1.838-.197-1.538-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.381-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z">
+                            </path>
+                        </svg>
+                    </div>
+                    <div class="timeline-content">
+                        <h4 class="timeline-title">Pendaftaran Gelombang I</h4>
+                        <p class="timeline-date-text">28 Februari - 31 Maret 2025</p>
+                    </div>
+                </div>
+
+                <!-- Event 2: Pendaftaran Gelombang II -->
+                <div class="timeline-event">
+                    <div class="timeline-node-icon">
+                        <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.538 1.118l-2.8-2.034a1 1 0 00-1.176 0l-2.8 2.034c-.783.57-1.838-.197-1.538-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.381-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z">
+                            </path>
+                        </svg>
+                    </div>
+                    <div class="timeline-content">
+                        <h4 class="timeline-title">Pendaftaran Gelombang II</h4>
+                        <p class="timeline-date-text">1 April - 12 April 2025</p>
+                    </div>
+                </div>
+
+                <!-- Event 3: Technical Meeting -->
+                <div class="timeline-event">
+                    <div class="timeline-node-icon">
+                        <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.538 1.118l-2.8-2.034a1 1 0 00-1.176 0l-2.8 2.034c-.783.57-1.838-.197-1.538-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.381-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z">
+                            </path>
+                        </svg>
+                    </div>
+                    <div class="timeline-content">
+                        <h4 class="timeline-title">Technical Meeting</h4>
+                        <p class="timeline-date-text">13 April 2025</p>
+                    </div>
+                </div>
+
+                <!-- Event 4: Pengumpulan Karya -->
+                <div class="timeline-event">
+                    <div class="timeline-node-icon">
+                        <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.538 1.118l-2.8-2.034a1 1 0 00-1.176 0l-2.8 2.034c-.783.57-1.838-.197-1.538-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.381-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z">
+                            </path>
+                        </svg>
+                    </div>
+                    <div class="timeline-content">
+                        <h4 class="timeline-title">Pengumpulan Karya</h4>
+                        <p class="timeline-date-text">14 April - 20 April 2025</p>
+                    </div>
+                </div>
+
+                <!-- Event 5: Penyisihan Oleh Dewan Juri -->
+                <div class="timeline-event">
+                    <div class="timeline-node-icon">
+                        <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.538 1.118l-2.8-2.034a1 1 0 00-1.176 0l-2.8 2.034c-.783.57-1.838-.197-1.538-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.381-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z">
+                            </path>
+                        </svg>
+                    </div>
+                    <div class="timeline-content">
+                        <h4 class="timeline-title">Penyisihan Oleh Dewan Juri</h4>
+                        <p class="timeline-date-text">21 April - 30 April 2025</p>
+                    </div>
+                </div>
+
+                <!-- Event 6: Pengumuman Finalis -->
+                <div class="timeline-event">
+                    <div class="timeline-node-icon">
+                        <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.538 1.118l-2.8-2.034a1 1 0 00-1.176 0l-2.8 2.034c-.783.57-1.838-.197-1.538-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.381-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z">
+                            </path>
+                        </svg>
+                    </div>
+                    <div class="timeline-content">
+                        <h4 class="timeline-title">Pengumuman Finalis</h4>
+                        <p class="timeline-date-text">04 Mei 2025</p>
+                    </div>
+                </div>
+
+                <!-- Event 7: Grand Final -->
+                <div class="timeline-event">
+                    <div class="timeline-node-icon">
+                        <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.538 1.118l-2.8-2.034a1 1 0 00-1.176 0l-2.8 2.034c-.783.57-1.838-.197-1.538-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.381-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z">
+                            </path>
+                        </svg>
+                    </div>
+                    <div class="timeline-content">
+                        <h4 class="timeline-title">Grand Final</h4>
+                        <p class="timeline-date-text">08 Mei 2025</p>
+                    </div>
+                </div>
+
+                <!-- Event 8: Awarding & Penutupan -->
+                <div class="timeline-event">
+                    <div class="timeline-node-icon">
+                        <svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.538 1.118l-2.8-2.034a1 1 0 00-1.176 0l-2.8 2.034c-.783.57-1.838-.197-1.538-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.381-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z">
+                            </path>
+                        </svg>
+                    </div>
+                    <div class="timeline-content">
+                        <h4 class="timeline-title">Awarding & Penutupan</h4>
+                        <p class="timeline-date-text">11 Mei 2025</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Link the JavaScript file -->
+    <script src="countdown.js"></script>
+</body>
+
+</html>
